@@ -27,8 +27,8 @@ class ClientApi {
         return response;
     };
 
-    async delete(boodId) {
-        const response = await axios.delete(baseUrl + boodId);
+    async delete(bookId) {
+        const response = await axios.delete(baseUrl + bookId);
 
         return response;
     };
