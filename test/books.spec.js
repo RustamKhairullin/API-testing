@@ -1,5 +1,5 @@
 const BooksApi = require("../api/books-api");
-const { expect, assert } = require('chai');
+const { expect } = require('chai');
 
 const rightNow = new Date();
 const newTitle = { title: rightNow.toString(), author: "Lazy boy" };
@@ -15,23 +15,24 @@ describe("Books api", async () => {
         expect(getNewBook.id).to.be.a('string');
         expect(getNewBook.id).to.have.lengthOf(32);
         expect(getNewBook.title).to.be.a('string');
-        expect(getNewBook.title.length > 1).to.be.true;
+        expect(getNewBook.title.length > 0).to.be.true;
         expect(getNewBook.author).to.be.a('string');
-        expect(getNewBook.author.length > 1).to.be.true;
+        expect(getNewBook.author.length > 0).to.be.true;
     });
 
     it('should get all books', async () => {
         // Getting all books
         const getAllBooksResponse = await BooksApi.getAllBooks();
         // Verifying all data of all books
-        getAllBooksResponse.forEach(async (book) => {
-            expect(book.id).to.be.a('string');
-            expect(book.id).to.have.lengthOf(32);
-            expect(book.title).to.be.a('string');
-            expect(book.title.length > 1).to.be.true;
-            expect(book.author).to.be.a('string');
-            expect(book.author.length > 1).to.be.true;
-        });
+        for (let i = 0; i < getAllBooksResponse.length; i++) {
+            let books = getAllBooksResponse[i];
+            expect(books.id).to.be.a('string');
+            expect(books.id).to.have.lengthOf(32);
+            expect(books.title).to.be.a('string');
+            expect(books.title.length > 0).to.be.true;
+            expect(books.author).to.be.string;
+            expect(books.author.length > 0).to.be.true;
+        }
     });
 
     it('should create a book', async () => {
@@ -40,9 +41,9 @@ describe("Books api", async () => {
         expect(newBook.id).to.be.a('string');
         expect(newBook.id).to.have.lengthOf(32);
         expect(newBook.title).to.be.a('string');
-        expect(newBook.title.length > 1).to.be.true;
+        expect(newBook.title.length > 0).to.be.true;
         expect(newBook.author).to.be.a('string');
-        expect(newBook.author.length > 1).to.be.true;
+        expect(newBook.author.length > 0).to.be.true;
         // Getting the created book and verifying all data
         const getNewBook = await BooksApi.getBookById(newBook.id);
         expect(getNewBook.id).to.equal(newBook.id);
@@ -54,8 +55,8 @@ describe("Books api", async () => {
         // Creating a new book
         const newBook = await BooksApi.createBook(newTitle);
         // Updating title of the created book and verifying that it has been changed
-        const getRandomString = BooksApi.getUid();
-        const randomString = (await getRandomString).toString();
+        const randomStringTitle = BooksApi.getRandomString();
+        const randomString = (await randomStringTitle).toString();
         const updatedBook = await BooksApi.updateBook(newBook.id, randomString);
         expect(newBook.title).not.to.equal(updatedBook.title);
     });
@@ -67,4 +68,14 @@ describe("Books api", async () => {
         const deletedBookResponse = await BooksApi.deleteBookById(newBook.id);
         expect(deletedBookResponse).to.equal('Book was removed successfully');
     });
-}); 
+
+    // it('delete books with not typeof string titles and authors', async () => {
+    //     const getAllBooksResponse = await BooksApi.getAllBooks();
+    //     getAllBooksResponse.forEach(async (book) => {
+    //         if(book.title !== String || book.author !== String) {
+    //             await BooksApi.deleteBookById(book.id)
+    //         }
+    //     });
+    // })
+});
+

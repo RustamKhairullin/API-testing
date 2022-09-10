@@ -1,5 +1,5 @@
 const Client = require('./api-client');
-const { expect, assert } = require('chai');
+const { expect } = require('chai');
 
 class BooksApi {
     async createBook(title) {
@@ -45,7 +45,7 @@ class BooksApi {
         return response.data.message;
     }
 
-    async getUid() {
+    async getRandomString() {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
     }
 }
