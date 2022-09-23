@@ -41,7 +41,7 @@ class BooksApi {
     async deleteBookById(bookId) {
         const response = await Client.delete(bookId);
         expect(response.status).to.equal(200);
-
+        console.log(response.data);
         return response.data.message;
     }
 

@@ -66,6 +66,7 @@ describe("Books api", async () => {
         const newBook = await BooksApi.createBook(newTitle);
         // Deleting the created book and verifying that the book has been deleted
         const deletedBookResponse = await BooksApi.deleteBookById(newBook.id);
+        console.log(deletedBookResponse);
         expect(deletedBookResponse).to.equal('Book was removed successfully');
     });
 
@@ -73,6 +74,15 @@ describe("Books api", async () => {
     //     const getAllBooksResponse = await BooksApi.getAllBooks();
     //     getAllBooksResponse.forEach(async (book) => {
     //         if(book.title !== String || book.author !== String) {
+    //             await BooksApi.deleteBookById(book.id)
+    //         }
+    //     });
+    // })
+
+    // it('delete books by author', async () => {
+    //     const getAllBooksResponse = await BooksApi.getAllBooks();
+    //     getAllBooksResponse.forEach(async book => {
+    //         if(book.author === 'Lazy boy') {
     //             await BooksApi.deleteBookById(book.id)
     //         }
     //     });
