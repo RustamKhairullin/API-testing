@@ -66,26 +66,25 @@ describe("Books api", async () => {
         const newBook = await BooksApi.createBook(newTitle);
         // Deleting the created book and verifying that the book has been deleted
         const deletedBookResponse = await BooksApi.deleteBookById(newBook.id);
-        console.log(deletedBookResponse);
         expect(deletedBookResponse).to.equal('Book was removed successfully');
     });
 
-    // it('delete books with not typeof string titles and authors', async () => {
+    // it.only('delete books with not typeof string titles and authors and id length not 32', async () => {
     //     const getAllBooksResponse = await BooksApi.getAllBooks();
-    //     getAllBooksResponse.forEach(async (book) => {
-    //         if(book.title !== String || book.author !== String) {
+    //     getAllBooksResponse.forEach(async book => {
+    //         if(typeof book.title !==  'string' || typeof book.author !== 'string' || book.id.length !== 32 || book.title.length < 1 || book.author.length < 1) {
     //             await BooksApi.deleteBookById(book.id)
     //         }
     //     });
     // })
 
-    // it('delete books by author', async () => {
-    //     const getAllBooksResponse = await BooksApi.getAllBooks();
-    //     getAllBooksResponse.forEach(async book => {
-    //         if(book.author === 'Lazy boy') {
-    //             await BooksApi.deleteBookById(book.id)
-    //         }
-    //     });
-    // })
+    it.only('delete books by author', async () => {
+        const getAllBooksResponse = await BooksApi.getAllBooks();
+        getAllBooksResponse.forEach(async book => {
+            if(book.author !== 'Lazy boyyy') {
+                await BooksApi.deleteBookById(book.id)
+            }
+        });
+    })
 });
 
